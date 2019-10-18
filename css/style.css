@@ -2,6 +2,7 @@ body {
     font-size: 16px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: #eee;
+    
 }
 
 .container {
@@ -12,6 +13,7 @@ body {
     text-align: center;;
     background-color: #fff;
     box-shadow: 2px 2px 2px rgba(0,0,0,0.4);
+
 }
 
 h1 {

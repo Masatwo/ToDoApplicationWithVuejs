@@ -13,6 +13,7 @@
             ],
             checkedList: "すべて",
         },
+        
         watch: {
             todos: {
                 //todosの内容に変更が加わった場合に、Vuexにデータを保存する
