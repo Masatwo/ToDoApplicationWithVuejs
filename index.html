@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <section class = "container">
+        <h1>ToDoリスト</h1>
+        <div id="app">
+            <form>
+                <input type="radio" name="condition" v-model="checkedList" value="すべて" checked>すべて
+                <input type="radio" name="condition" v-model="checkedList" value="作業中">作業中
+                <input type="radio" name="condition" v-model="checkedList" value="完了">完了
+            </form>
+
+            <!-- ラジオボタンで選択されたものをベースに表示するアイテムを変更しています
+            すべてで表示させる項目と、完了や作業中で表示させる方法を別で記載しました。
+            1つのulタグ内で記載する方法がわからなかったためです。-->
+            <ul v-if = "checkedList === 'すべて'">
+                <li v-for = "(todo, index) in todos">
+                    {{ index }}, {{ todo.todo }}
+                    <button @click="changeCondition(index)">{{ todo.condition }}</button>
+                    <button @click="deleteItem(index)">削除</button>
+                </li>
+            </ul>
+
+            <!-- ラジオボタンで”すべて”以外が選択されている場合にはこちらのマークアップが動作します。 -->
+            <ul v-else>
+                <li v-for = "(todo, index) in todos" v-if = "todo.condition === checkedList">
+                    {{ index }}  {{ todo.todo }}   
+                    <button @click="changeCondition(index)">{{ todo.condition }}</button>
+                    <button @click="deleteItem(index)">削除</button>
+                </li>
+            </ul>
+            
+            <!-- todosに何も含まれていない場合には、こちらの処理が動作します。 -->
+            <p v-show="!todos.length">
+                やるべき事を追加してください。
+            </p>
+            
+            <!-- 追加ボタンを押すとTodosに項目が追加されます。 -->
+            <form @submit.prevent = "addItem">
+                <input type="text" v-model="newItem" class="inputForm">
+                <input type="submit" value="追加">
+            </form>
+        </div>
+    </section>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
