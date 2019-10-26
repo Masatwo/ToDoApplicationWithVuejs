@@ -1,10 +1,10 @@
 <template>
-  <body>
+    <body>
     <section class = "container">
-      <div> 
+        <div> 
         <h1>ToDoリスト</h1>
             <form>
-                <input type="radio" name="condition" v-model="checkedList" value="すべて" checked>すべて
+                <input type="radio" name="condition" v-model="checkedList" value="すべて">すべて
                 <input type="radio" name="condition" v-model="checkedList" value="作業中">作業中
                 <input type="radio" name="condition" v-model="checkedList" value="完了">完了
             </form>
@@ -22,13 +22,12 @@
 
             <!-- ラジオボタンで”すべて”以外が選択されている場合にはこちらのマークアップが動作します。 -->
             <ul v-else>
-                <li v-for = "(todo, index, key) in todos" :key="key" | filterBy checkCondition in todo.condition>
+                <li v-for = "(todo, index, key) in filteredTodos" :key="key">
                     {{ index }}  {{ todo.todo }}   
                     <button @click="changeCondition(index)">{{ todo.condition }}</button>
                     <button @click="deleteItem(index)">削除</button>
                 </li>
             </ul>
-            
             
             <!-- todosに何も含まれていない場合には、追加を促すメッセージが表示されます。 -->
             <p v-show="!todos.length">
@@ -42,22 +41,18 @@
             </form>
         </div>
     </section>
-  </body>
+    </body>
 </template>
 
 <script>
 
-  export default {
+    export default {
         data: function() {
-          return {
+            return {
             newItem: "",
-            todos: [
-                {todo: "todo1", condition: "作業中"},
-                {todo: "todo2", condition: "作業中"},
-                {todo: "todo3", condition: "作業中"},
-            ],
+            todos: [],
             checkedList: "すべて",
-          }
+            }
         },
 
         watch: {
@@ -96,9 +91,21 @@
                 }else {
                     this.todos[index].condition = "完了";
                 }
+            },
+        },
+        // ---------------------------------------------------------------------
+        // computedを用いて作業中や完了の状態になっている項目だけを表示しようとしてるのですがエラーが発生します。
+        // Developer toolsでの表示はfilteredToDoList: "(error during evaluation)"
+        // です。
+        // ---------------------------------------------------------------------
+        computed: {
+            filteredTodos: function(){
+                return this.todos.filter(function(todo){
+                    return todo.condition === this.checkedList;
+                });
             }
         },
-  }
+    }
 </script>
 
 <style scoped>
